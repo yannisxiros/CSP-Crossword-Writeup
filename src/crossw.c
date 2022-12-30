@@ -11,6 +11,23 @@ struct Wordliststruct {
     Wordlist next;
 };
 
+char** createCross(FILE* crossword,int size){
+    //allocate 2D array for the crossward
+    char** crossArray=malloc(sizeof(char*) * size);
+    int i,j;
+    for(i=0;i<size;i++){
+        crossArray[i]=malloc(sizeof(char) * size);
+    }
+
+    int x,y;
+    while(EOF != fscanf(crossword, "%d %d[^\n]\n", &x,&y)){
+        printf("%d %d\n",x-1,y-1);
+        crossArray[x-1][y-1]='#';
+    }
+    printf("ok\n");
+    return crossArray;
+}
+
 int main(int argc, char** argv) {
 
     //TODO better checking for invalid arguments
