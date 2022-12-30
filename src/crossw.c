@@ -11,17 +11,20 @@ struct Wordliststruct {
     Wordlist next;
 };
 
-char** createCross(FILE* crossword,int size){
+//create 2D array for the crossward for seemless printing with draw
+char** createCross(FILE* crossword,int* size){
+    fscanf("%d",size);
+
     //allocate 2D array for the crossward
-    char** crossArray=malloc(sizeof(char*) * size);
+    char** crossArray=malloc(sizeof(char*) * *size);
     int i,j;
     for(i=0;i<size;i++){
-        crossArray[i]=malloc(sizeof(char) * size);
+        crossArray[i]=malloc(sizeof(char) * *size);
     }
 
     int x,y;
     while(EOF != fscanf(crossword, "%d %d[^\n]\n", &x,&y)){
-        printf("%d %d\n",x-1,y-1);
+        printf("%d %d\n",x-1,y-1);//test print
         crossArray[x-1][y-1]='#';
     }
     printf("ok\n");
@@ -58,8 +61,8 @@ int main(int argc, char** argv) {
             }
         }
     } 
-    FILE* crossword = fopen(crossword_path, "r");
-    if (crossword == NULL) { /* File error handling */
+    FILE* crossword_file = fopen(crossword_path, "r");
+    if (crossword_file == NULL) { /* File error handling */
         fprintf("Error while handling dictionary: %s", strerror(errno));
         return errno;
     }
@@ -73,5 +76,9 @@ int main(int argc, char** argv) {
     }
 
     printf("dict: %s cross: %s\n", dict_path, crossword_path);
+
+    int size;
+    char** crossword = createCross(crossword_file,size);
+
     return 0;   
 }
