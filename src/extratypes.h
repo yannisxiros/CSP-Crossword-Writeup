@@ -25,10 +25,9 @@ struct Word {
 
 // Stack 101
 struct Action {
+    char** crossword;
     Wordnode wordnode;
     int* map;
-    char* changed;
-    Actionnode prev;
 };
 
 //TODO find better names maybe

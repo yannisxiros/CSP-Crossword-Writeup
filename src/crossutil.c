@@ -153,40 +153,44 @@ char* create_filter(char** crossword, Word word) {
 }
 
 
-void solve_crossword(char** crossword, int crossword_size, Dictnode* dictionary, Wordnode words, int wordnode_count, Bitmaps maps, int* map_sizes) {
-    Actionnode actions = NULL;
+void solve_crossword(char*** crossword, int crossword_size, Dictnode* dictionary, Wordnode words, int wordnode_count, Bitmaps maps, int* map_sizes) {
+    Actionnode actions = malloc((wordnode_count + 1) * sizeof(Action));
+    for (int i = 0 ; i <= wordnode_count ; ++i) {
+        actions[i].crossword = malloc(crossword_size * sizeof(char*));
+        for (int j = 0 ; j < crossword_size ; ++j) {
+            actions[i].crossword[j] = malloc(crossword_size * sizeof(char));
+        }
+    }
+    for (int i = 0 ; i < crossword_size ; i++) {
+        memcpy(actions[wordnode_count].crossword[i], (*crossword)[i], crossword_size * sizeof(char));
+    }
+    //draw_crossword(actions[wordnode_count].crossword, crossword_size);
+    prop_word(words, wordnode_count - 1, actions[wordnode_count].crossword, maps, map_sizes);
     int* map = NULL;
-    prop_word(words, wordnode_count - 1, crossword, maps, map_sizes);
     while (wordnode_count) {
         /* Find word in dictionary */
-        char* filter = create_filter(crossword, words[wordnode_count - 1]); //TODO optimize filter
+        char* filter = create_filter(actions[wordnode_count].crossword, words[wordnode_count - 1]); //TODO optimize filter
         int word_size = strlen(filter);
         if (!map) map = create_map(maps, map_sizes, filter);
         char* word_found;
         if ((word_found = find_word(dictionary[word_size - 1], map, map_sizes[word_size - 1])) == NULL) {
-            int* old_map = NULL;
-            char* changed = NULL;
-            Wordnode wordnode = NULL;
+            int* old_map = actions[wordnode_count].map;
             if (!actions) {
                 fprintf(stderr, "what happend\n");
                 exit(1);
             }
-            pop_word(&actions, &old_map, &changed, &wordnode);
             wordnode_count++;
-            delete_word(crossword, *wordnode, changed);
-            free(map);
             map = old_map;
-            free(changed);
             free(filter);
         }
         else {
-            char* changed = word_written(word_found, filter);
-            push_word(&actions, map, changed, &words[wordnode_count - 1]);
-            write_word(crossword, words[wordnode_count - 1], word_found);
+            push_word(actions, map, wordnode_count - 1, words, crossword_size);
+            write_word(actions[wordnode_count - 1].crossword, words[wordnode_count - 1], word_found);
             map = NULL;
+            prop_word(words, wordnode_count - 1, actions[wordnode_count].crossword, maps, map_sizes);
             wordnode_count--;
-            prop_word(words, wordnode_count - 1, crossword, maps, map_sizes);
             free(filter);
         }
     }
+    *crossword = actions[0].crossword;
 }
