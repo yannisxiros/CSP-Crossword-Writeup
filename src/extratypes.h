@@ -1,34 +1,27 @@
 #ifndef EXTRATYPES_H_
 #define EXTRATYPES_H_
 
-typedef struct Word* Wordnode;
-typedef struct Word Word;
-typedef struct Action* Actionnode;
-typedef struct Action Action;
-typedef struct Dictionary* Dictnode;
-typedef struct Dictionary Dictionary;
-typedef int**** Bitmaps;
+typedef Dictword* Dictionary;
 
-struct Dictionary {
-    int value;
-    char* word;
-};
+typedef struct {
+    int value; /* Value of word calculated using better alphabet */
+    char* word; /* Word string */
+} Dictword;
 
-
-//TODO add word size and make changes
-struct Word {
-    int orientation;
-    int constant;
-    int begin;
-    int end;
-};
+typedef struct {
+    int orientation; /* 0 for horizontal // 1 for vertical */
+    int constant; /* Holds row or col of word (depends on orientation) */
+    int size; /* Word size (end - begin + 1) */
+    int begin; /* Begin row or col of word */
+    int end; /* End row or col of word */
+} Word;
 
 // Stack 101
-struct Action {
+typedef struct {
     char** crossword;
-    Wordnode wordnode;
+    Word* words;
     int* map;
-};
+} State;
 
 //TODO find better names maybe
 
