@@ -1,0 +1,139 @@
+Words
+###### e  r  e 
+### r  e  a  r 
+ b  a  r  r  e 
+ e  r  i  e ###
+ t  e  e ######
+dict: data/Words.txt cross: data/Crossword1.txt max: 5
+0:00.01 0.00u 0.00s 100%
+######### e  r  e #########
+###### p  r  a  d  o ######
+### k  r  i  e  g  e  r ###
+ e  r  i  e ### e  r  i  c 
+ r  a  m ######### s  p  a 
+ a  f  a  r ### i  t  e  m 
+### t  r  o  d  d  e  n ###
+###### y  i  e  l  d ######
+######### l  e  e #########
+dict: data/Words.txt cross: data/Crossword2.txt max: 7
+0:00.02 0.02u 0.00s 100%
+ o  s  h  a ### e  r  e ### t  a  n  h 
+ s  t  a  g ### s  a  l ### a  r  e  a 
+ h  e  r  r ### t  e  e ### r  e  a  r 
+ a  m  p  e  r  e ### n  o  t  a  t  e 
+######### e  a  r ### a  a  a #########
+ a  s  i  d  e ######### t  r  e  a  t 
+ a  i  r ##################### r  a  e 
+ a  s  s  a  i ######### p  a  e  a  n 
+######### a  i  d ### t  e  e #########
+ d  e  a  r  i  e ### a  e  r  a  t  e 
+ a  r  c  h ### e  a  t ### a  f  a  r 
+ s  i  t  u ### r  a  e ### t  a  x  i 
+ h  e  s  s ### e  a  r ### e  r  i  e 
+dict: data/Words.txt cross: data/Crossword3.txt max: 6
+0:00.07 0.07u 0.00s 100%
+ g  n  a  t ### s  a  d ### p  l  o  t 
+ n  a  i  r ### a  l  e ### h  e  i  r 
+ a  i  d  a ### l  a  p ### a  n  n  e 
+ t  r  a  n  s  l  i  t  e  r  a  t  e 
+######### s  e  e ### h  e  m #########
+ c  a  r  l  a ######### l  a  b  i  a 
+ a  l  a  i ############### c  o  r  n 
+ t  e  e  t  h ######### r  o  a  s  t 
+######### e  a  r ### m  a  p #########
+ p  h  a  r  m  a  c  o  p  o  e  i  a 
+ l  e  n  a ### t  a  t ### e  d  e  n 
+ o  i  n  t ### e  r  e ### i  e  e  e 
+ t  r  e  e ### r  e  t ### a  n  e  w 
+dict: data/Words.txt cross: data/Crossword4.txt max: 13
+0:00.06 0.06u 0.00s 100%
+ e  r  r  a  t  a 
+ r  e  e  v  e  s 
+ r  e  m  i  s  s 
+ a  v  i  a  t  e 
+ t  e  s  t  e  s 
+ a  s  s  e  s  s 
+dict: data/Words.txt cross: data/Empty6.txt max: 6
+0:04.38 4.38u 0.00s 99%
+what happend
+Command exited with non-zero status 1
+58:44.87 3524.77u 0.03s 99%
+More Words
+###### e  r  e 
+### r  e  a  r 
+ e  e  r  i  e 
+ r  a  i  n ###
+ e  r  e ######
+dict: data/MoreWords.txt cross: data/Crossword1.txt max: 5
+0:00.00 0.00u 0.00s 100%
+######### e  r  e #########
+###### t  r  a  d  e ######
+### o  r  i  e  n  t  s ###
+ t  r  e  e ### a  r  e  a 
+ a  d  a ######### u  r  i 
+ b  e  t  a ### d  r  u  m 
+### r  e  c  l  a  i  m ###
+###### d  r  a  m  a ######
+######### e  y  e #########
+dict: data/MoreWords.txt cross: data/Crossword2.txt max: 7
+0:00.02 0.02u 0.00s 100%
+ a  g  u  e ### e  r  e ### n  e  a  r 
+ l  a  n  a ### n  a  n ### a  l  g  a 
+ a  v  i  s ### t  e  a ### s  l  a  t 
+ r  e  t  i  r  e ### c  e  s  a  r  e 
+######### e  a  r ### t  e  a #########
+ t  e  r  r  e ######### l  u  n  a  r 
+ e  r  a ##################### e  r  e 
+ d  e  e  r  e ######### r  a  t  e  d 
+######### a  r  c ### r  a  e #########
+ g  a  i  n  e  r ### a  e  r  a  t  e 
+ a  n  s  i ### e  a  r ### a  l  a  r 
+ i  s  l  e ### t  i  e ### t  a  x  i 
+ t  i  e  r ### e  r  r ### e  r  i  e 
+dict: data/MoreWords.txt cross: data/Crossword3.txt max: 6
+0:00.06 0.06u 0.00s 100%
+ a  i  n  u ### e  r  e ### p  a  s  s 
+ i  r  a  n ### t  e  a ### o  n  t  o 
+ n  a  z  i ### h  a  t ### s  t  a  n 
+ u  n  i  n  t  e  r  e  s  t  i  n  g 
+######### t  a  r ### r  h  o #########
+ e  a  t  e  r ######### u  p  p  e  r 
+ l  i  e  n ############### e  i  r  e 
+ i  r  a  t  e ######### u  r  g  e  d 
+######### i  r  e ### b  r  a #########
+ a  b  n  o  r  m  a  l  i  t  i  e  s 
+ m  e  a  n ### i  d  a ### i  d  e  a 
+ m  e  t  a ### l  e  n ### v  o  l  t 
+ o  p  e  l ### e  n  d ### e  l  s  e 
+dict: data/MoreWords.txt cross: data/Crossword4.txt max: 13
+1:44.39 104.32u 0.04s 99%
+ a  e  r  a  t  e 
+ e  l  i  s  h  a 
+ r  i  n  s  e  s 
+ a  s  s  e  n  t 
+ t  h  e  n  c  e 
+ e  a  s  t  e  r 
+dict: data/MoreWords.txt cross: data/Empty6.txt max: 6
+0:00.61 0.61u 0.00s 99%
+ p  r  e  p  a  r  e 
+ r  e  m  o  d  e  l 
+ e  m  u  l  a  t  e 
+ p  o  l  e  m  i  c 
+ a  d  a  m  a  n  t 
+ r  e  t  i  n  u  e 
+ e  l  e  c  t  e  d 
+dict: data/MoreWords.txt cross: data/Empty7.txt max: 7
+5:06:42 13435.67u 1.78s 73%
+Even More Words
+Command terminated by signal 11
+0:00.15 0.02u 0.00s 17%
+Error while allocating memory: Cannot allocate memoryCommand exited with non-zero status 1
+0:00.24 0.23u 0.00s 99%
+Error while allocating memory: Cannot allocate memoryCommand exited with non-zero status 1
+0:00.42 0.42u 0.00s 100%
+Error while allocating memory: Cannot allocate memoryCommand exited with non-zero status 1
+0:00.46 0.45u 0.00s 100%
+Command terminated by signal 11
+0:00.14 0.02u 0.00s 21%
+Command terminated by signal 11
+0:00.14 0.04u 0.00s 35%
