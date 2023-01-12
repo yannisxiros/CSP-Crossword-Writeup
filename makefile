@@ -1,12 +1,11 @@
-TARGET_EXEC := final_program
+TARGET_EXEC := crossw
 
 BUILD_DIR := ./target
-OBJ_DIR := ./target/objs
 SRC_DIRS := ./src
 
 SRCS := $(shell find $(SRC_DIRS) -name '*.c' -or -name '*.s')
 
-OBJS := $(SRCS:%=$(OBJ_DIR)/%.o)
+OBJS := $(SRCS:%=$(BUILD_DIR)/%.o)
 
 DEPS := $(OBJS:.o=.d)
 
@@ -18,10 +17,14 @@ CC = gcc
 CFLAGS = $(INC_FLAGS) -g3 -Wall -Werror -Wextra
 
 $(BUILD_DIR)/$(TARGET_EXEC): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) -o $@
+	$(CC) $(OBJS) -o $@
 
-$(OBJ_DIR)/%.c.o: %.c
+$(BUILD_DIR)/%.c.o: %.c
 	mkdir -p $(dir $@)
 	$(CC) $(CFLAGS) -c $< -o $@
+
+.PHONY: clean
+clean:
+	rm -r $(BUILD_DIR)
 
 -include $(DEPS)
