@@ -8,7 +8,7 @@
 extern int errno;
 
 void write_word(char** crossword, Word* node, char* word) {
-    if (node->orientation) { /* Vertical */
+    if (node->orientation == Vertical) { /* Vertical */
         for (int i = node->begin, j = 0 ; i <= node->end ; ++i, ++j) {
             crossword[i][node->constant] = word[j];
         }
@@ -20,13 +20,12 @@ void write_word(char** crossword, Word* node, char* word) {
     }
 }
 
-//TODO change all ++ to pre
 void print_solution(char** crossword, Word** ord_words, int count) {
     for (int i = 0 ; i < count ; ++i) {
         int c = ord_words[i]->constant;
-        int f = ord_words[i]->orientation;
+        enum Orientation f = ord_words[i]->orientation;
         for (int j = ord_words[i]->begin ; j <= ord_words[i]->end ; ++j) {
-            putchar(f ? crossword[j][c] : crossword[c][j]); /* Choose cell depending on orientation */
+            putchar(f == Vertical ? crossword[j][c] : crossword[c][j]); /* Choose cell depending on orientation */
         }
         putchar('\n');
     }
@@ -82,7 +81,7 @@ Word** map_words_on_grid(char** crossword, int crossword_size, int count) {
                 int newj = ((crossword[i][j] != '\r') ? j : (j - 1));
                 if (hor_size > 1) {
                     *grid_words[index++] = (Word) {
-                        .orientation = 0,
+                        .orientation = Horizontal,
                         .constant = i,
                         .begin = begin_h,
                         .end = newj,
@@ -99,7 +98,7 @@ Word** map_words_on_grid(char** crossword, int crossword_size, int count) {
                 int newj = ((crossword[j][i] != '\r') ? j : (j - 1));
                 if (ver_size > 1) {
                     *grid_words[index++] = (Word) {
-                        .orientation = 1,
+                        .orientation = Vertical,
                         .constant = i,
                         .begin = begin_v,
                         .end = newj,
@@ -112,13 +111,11 @@ Word** map_words_on_grid(char** crossword, int crossword_size, int count) {
     }
 
     /* Finding the intersections */
-    //TODO remove extra NULL insecs
     Intersection* buf_insecs = malloc(count * sizeof(Intersection));
     mallerr(buf_insecs, errno);
     int buf_insecc = 0;
     for (int i = 0 ; i < count ; ++i) {
         /* Reseting buf_insecs */
-        memset(buf_insecs, 0, count * sizeof(Intersection));
         buf_insecc = 0;
         for (int j = grid_words[i]->begin ; j <= grid_words[i]->end ; ++j) {
             for (int k = 0 ; k < count ; ++k) {
@@ -127,8 +124,8 @@ Word** map_words_on_grid(char** crossword, int crossword_size, int count) {
                 if (grid_words[k]->constant == j && grid_words[k]->begin <= cord && cord <= grid_words[k]->end) {
                     buf_insecs[buf_insecc++] = (Intersection) {
                         .word = &(*grid_words[k]),
-                        .x = grid_words[i]->orientation ? j : cord,
-                        .y = grid_words[i]->orientation ? cord : j,
+                        .x = grid_words[i]->orientation == Vertical ? j : cord,
+                        .y = grid_words[i]->orientation == Vertical ? cord : j,
                         .pos = cord - grid_words[k]->begin,
                         .pos_l = j - grid_words[i]->begin
                     };
@@ -136,9 +133,9 @@ Word** map_words_on_grid(char** crossword, int crossword_size, int count) {
                 }
             }
         }
-        grid_words[i]->insecs = malloc((buf_insecc + 1) * sizeof(Intersection));
+        grid_words[i]->insecs = malloc(buf_insecc * sizeof(Intersection));
         grid_words[i]->insecc = buf_insecc;
-        memcpy(grid_words[i]->insecs, buf_insecs, (buf_insecc + 1) * sizeof(Intersection));
+        memcpy(grid_words[i]->insecs, buf_insecs, buf_insecc * sizeof(Intersection));
     }
     free(buf_insecs);
     return grid_words;

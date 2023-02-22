@@ -92,12 +92,12 @@ int main(int argc, char** argv) {
     mallerr(ord_words, errno);
     int ord_i = 0;
     for (int i = 0 ; i < grid_count ; ++i) {
-        if (!(grid_words[i]->orientation)) {
+        if (grid_words[i]->orientation == Horizontal) {
             ord_words[ord_i++] = grid_words[i];
         }
     }
     for (int i = 0 ; i < grid_count ; ++i) {
-        if (grid_words[i]->orientation) {
+        if (grid_words[i]->orientation == Vertical) {
             ord_words[ord_i++] = grid_words[i];
         }
     }

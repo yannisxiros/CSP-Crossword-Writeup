@@ -24,11 +24,11 @@ void print_words(Word** words, int wordnode_count, char** crossword) {
         print_map(words[i]->map);
         /* Interesections */
         printf("insecs:\n");
-        int j = 0;
-        while(words[i]->insecs[j].word) {
-            printf("%p\n", (void*)(words[i]->insecs[j].word));
-            ++j;
-        }
+        // @deprecated 
+        // while(words[i]->insecs[j].word) {
+        //     printf("%p\n", (void*)(words[i]->insecs[j].word));
+        //     ++j;
+        // }
         /* Actual value in crossword */
         printf("value: ");
         if (words[i]->orientation) {

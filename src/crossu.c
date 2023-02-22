@@ -118,7 +118,7 @@ void check_crossword(char** crossword, Word** words, Map*** maps, int wordnode_c
             exit(1);
         }
         /* For vertical words we need to check if they match the horizontals already placed */
-        if (words[index]->orientation) {
+        if (words[index]->orientation == Vertical) {
             int beg = words[index]->begin;
             for (int i = beg ; i <= words[index]->end ; ++i) {
                 int ch = crossword[i][words[index]->constant];
@@ -195,7 +195,7 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
             }
             // remove h
             words[jump_to]->conf_set[jump_to] = 0;
-            //if (jump_to != index - 1) fprintf(stderr, "%d\n", jump_to - index + 1);
+            // backtrack
             do {
                 --map_stack_index;
                 words[index]->map->sum = map_stack[map_stack_index].sum;
@@ -224,7 +224,7 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
         words[index]->in_use = 1;
         words[index]->put_index = index;
         /* For every intersection in word update its map with the changed letter */
-        for (int i = 0 ; words[index]->insecs[i].word ; ++i) {
+        for (int i = 0 ; i < words[index]->insecc ; ++i) {
             Intersection insec = words[index]->insecs[i];
             Word* word = insec.word;
             if (word->in_use == 0) {

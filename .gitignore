@@ -4,6 +4,7 @@ hashthings.c
 crossw
 relic.c
 callgrind.*
+.vscode/*
 
 # Prerequisites
 *.d

@@ -6,11 +6,15 @@ typedef struct Intersection Intersection;
 typedef struct Map Map;
 typedef char** Dictionary;
 
-//TODO add word size and make changes
+enum Orientation {
+    Horizontal = 0,
+    Vertical = 1
+};
+
 struct Word {
     int in_use;
     int put_index;
-    int orientation;
+    enum Orientation orientation;
     int constant;
     int begin;
     int end;
@@ -21,8 +25,6 @@ struct Word {
     int* conf_set;
     int* past_fc;
 };
-
-//TODO enums for horizontal and vertical
 
 struct Map {
     int* array;
