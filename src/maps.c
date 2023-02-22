@@ -17,7 +17,7 @@ Map*** init_dict_maps(Dictionary* bigdict, int max_word_size, int* words_count,
         if (lengths_on_grid[i] == 0) continue;
         map_sizes[i] = words_count[i] >> 5;
         /* If words are not divisible by 32 we need 1 extra non-full array */
-        if (words_count[i] & 0x1F) map_sizes[i]++;
+        if (words_count[i] & 0x1F) ++map_sizes[i];
     }
 
     /* Allocating memory for maps */
