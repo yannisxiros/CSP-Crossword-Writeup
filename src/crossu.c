@@ -191,8 +191,7 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
             }
             // past-fc union, conf_set union
             for (int i = jump_to ; i >= 0 ; --i) {
-                words[jump_to]->conf_set[i] |= words[index]->conf_set[i];
-                words[jump_to]->conf_set[i] |= words[index]->past_fc[i];
+                words[jump_to]->conf_set[i] |= words[index]->conf_set[i] | words[index]->past_fc[i];
             }
             // remove h
             words[jump_to]->conf_set[jump_to] = 0;
