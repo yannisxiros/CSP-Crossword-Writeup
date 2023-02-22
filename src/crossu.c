@@ -46,21 +46,21 @@ void init_crossword(char* crossword_path, char*** crossword_ret, int* crossword_
     }
 
     /* Biggest word finder */
-    for (int i = 0 ; i < crossword_size ; i++) {
+    for (int i = 0 ; i < crossword_size ; ++i) {
         int len_row = 0, len_col = 0;
-        for (int j = 0 ; j < crossword_size ; j++) {
+        for (int j = 0 ; j < crossword_size ; ++j) {
             /* Row section */
             if (crossword[i][j] == '\r') {
                 if (len_row > max_word_size) max_word_size = len_row;
                 len_row = 0;
             }
-            if (crossword[i][j] == '\0') len_row++;
+            if (crossword[i][j] == '\0') ++len_row;
             /* Column section */
             if (crossword[j][i] == '\r') {
                 if (len_col > max_word_size) max_word_size = len_col;
                 len_col = 0;
             }
-            if (crossword[j][i] == '\0') len_col++;
+            if (crossword[j][i] == '\0') ++len_col;
         }
         if (len_row > max_word_size) max_word_size = len_row;
         if (len_col > max_word_size) max_word_size = len_col;
@@ -76,8 +76,8 @@ void init_crossword(char* crossword_path, char*** crossword_ret, int* crossword_
 
 /* Drawing the crossword as it is depicted in the assignment */
 void draw_crossword(char** crossword, int crossword_size) {
-    for (int i = 0 ; i < crossword_size ; i++) {
-        for (int j = 0 ; j < crossword_size ; j++) {
+    for (int i = 0 ; i < crossword_size ; ++i) {
+        for (int j = 0 ; j < crossword_size ; ++j) {
             if (crossword[i][j] == '\r') {
                 printf("###");
             } else {
@@ -131,7 +131,7 @@ void check_crossword(char** crossword, Word** words, Map*** maps, int wordnode_c
         }
         /* Write word in crossword */
         write_word(crossword, words[index], buffer);
-        index++;
+        ++index;
     }
     if (index != wordnode_count) {
         fprintf(stderr, "Not enough words\n");

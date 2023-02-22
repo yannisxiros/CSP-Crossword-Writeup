@@ -9,12 +9,12 @@ extern int errno;
 
 void write_word(char** crossword, Word* node, char* word) {
     if (node->orientation) { /* Vertical */
-        for (int i = node->begin, j = 0 ; i <= node->end ; i++, j++) {
+        for (int i = node->begin, j = 0 ; i <= node->end ; ++i, ++j) {
             crossword[i][node->constant] = word[j];
         }
     }
     else { /* Horizontal */
-        for (int i = node->begin, j = 0 ; i <= node->end ; i++, j++) {
+        for (int i = node->begin, j = 0 ; i <= node->end ; ++i, ++j) {
             crossword[node->constant][i] = word[j];
         }
     }
@@ -35,23 +35,23 @@ void print_solution(char** crossword, Word** ord_words, int count) {
 /* Count words on the crossword */
 int count_words_on_grid(char** crossword, int crossword_size, int* lengths_on_grid) {
     int hor_size = 0, ver_size = 0, count = 0;
-    for (int i = 0 ; i < crossword_size ; i++) {
-        for (int j = 0 ; j < crossword_size ; j++) {
+    for (int i = 0 ; i < crossword_size ; ++i) {
+        for (int j = 0 ; j < crossword_size ; ++j) {
             /* Horizontal */
-            if (crossword[i][j] != '\r') hor_size++;
+            if (crossword[i][j] != '\r') ++hor_size;
             if (crossword[i][j] == '\r' || j == crossword_size - 1) {
                 if (hor_size > 1) { /* Words with size 1 don't count */
                     lengths_on_grid[hor_size - 1] = 1;
-                    count++;
+                    ++count;
                 }
                 hor_size = 0;
             }
             /* Vertical */
-            if (crossword[j][i] != '\r') ver_size++;
+            if (crossword[j][i] != '\r') ++ver_size;
             if (crossword[j][i] == '\r' || j == crossword_size - 1) {
                 if (ver_size > 1) { /* Words with size 1 don't count */
                     lengths_on_grid[ver_size - 1] = 1;
-                    count++;
+                    ++count;
                 }
                 ver_size = 0;
             }
@@ -72,11 +72,11 @@ Word** map_words_on_grid(char** crossword, int crossword_size, int count) {
     /* Mapping the grid */
     int hor_size = 0, ver_size = 0;
     int begin_h = 0, begin_v = 0, index = 0;
-    for (int i = 0 ; i < crossword_size ; i++) {
-        for (int j = 0 ; j < crossword_size ; j++) {
+    for (int i = 0 ; i < crossword_size ; ++i) {
+        for (int j = 0 ; j < crossword_size ; ++j) {
             if (crossword[i][j] != '\r') {
                 if (hor_size == 0) begin_h = j;
-                hor_size++;
+                ++hor_size;
             }
             if (crossword[i][j] == '\r' || j == crossword_size - 1) {
                 int newj = ((crossword[i][j] != '\r') ? j : (j - 1));
@@ -93,7 +93,7 @@ Word** map_words_on_grid(char** crossword, int crossword_size, int count) {
             }
             if (crossword[j][i] != '\r') {
                 if (ver_size == 0) begin_v = j;
-                ver_size++;
+                ++ver_size;
             }
             if (crossword[j][i] == '\r' || j == crossword_size - 1) {
                 int newj = ((crossword[j][i] != '\r') ? j : (j - 1));

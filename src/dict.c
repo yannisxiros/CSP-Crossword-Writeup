@@ -37,7 +37,6 @@ Dictionary* init_dictionary(char* dictionary_path, int max_word_size,
         dict_count[word_size - 1]++;
     }
 
-    //TODO remove useless allocated dicts
     /* Allocate enough arrays for all word sizes that we may need */
     Dictionary* bigdict = calloc(max_word_size, sizeof(Dictionary));
     mallerr(bigdict, errno);
@@ -137,8 +136,8 @@ void sort_dictionary(Dictionary dictionary, int* dictnode_values, int first, int
         i = first;
         j = last;
         while (i < j) {
-            while (dictnode_values[i] >= dictnode_values[pivot] && i < last) i++;
-            while (dictnode_values[j] < dictnode_values[pivot]) j--;
+            while (dictnode_values[i] >= dictnode_values[pivot] && i < last) ++i;
+            while (dictnode_values[j] < dictnode_values[pivot]) --j;
             if (i < j) {
                 temp = dictionary[i];
                 dictionary[i] = dictionary[j];
