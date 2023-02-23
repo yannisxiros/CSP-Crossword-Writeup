@@ -15,9 +15,9 @@ Map*** init_dict_maps(Dictionary* bigdict, int max_word_size, int* words_count,
     mallerr(map_sizes, errno);
     for (int i = 1 ; i < max_word_size ; ++i) {
         if (lengths_on_grid[i] == 0) continue;
-        map_sizes[i] = words_count[i] >> 5;
-        /* If words are not divisible by 32 we need 1 extra non-full array */
-        if (words_count[i] & 0x1F) ++map_sizes[i];
+        map_sizes[i] = words_count[i] >> 6;
+        /* If words are not divisible by 64 we need 1 extra non-full array */
+        if (words_count[i] & 0x3F) ++map_sizes[i];
     }
 
     /* Allocating memory for maps */
@@ -45,7 +45,7 @@ Map*** init_dict_maps(Dictionary* bigdict, int max_word_size, int* words_count,
             for (int letter = 0 ; letter < 256 ; ++letter) {
                 if (ascii_on_dict[letter] == 0) continue;
                 maps[word_size][position][letter].size = map_sizes[word_size];
-                maps[word_size][position][letter].array = calloc(map_sizes[word_size], sizeof(int));
+                maps[word_size][position][letter].array = calloc(map_sizes[word_size], sizeof(long long));
                 mallerr(maps[word_size][position][letter].array, errno);
             }
         }
@@ -64,7 +64,7 @@ Map*** init_dict_maps(Dictionary* bigdict, int max_word_size, int* words_count,
                  * i is the word_length.
                  * k is the position in the word.
                 */
-                maps[i][k][(int)word[k]].array[j >> 5] |= 1 << (j & 0x1F);
+                maps[i][k][(int)word[k]].array[j >> 6] |= 1LL << (j & 0x3F);
             }
         }
     }
@@ -73,14 +73,14 @@ Map*** init_dict_maps(Dictionary* bigdict, int max_word_size, int* words_count,
     for (int word_size = 1 ; word_size < max_word_size ; ++word_size) {
         if (lengths_on_grid[word_size] == 0) continue;
         maps[word_size][word_size + 1][0].size = map_sizes[word_size];
-        maps[word_size][word_size + 1][0].array = malloc(map_sizes[word_size] * sizeof(int));
+        maps[word_size][word_size + 1][0].array = malloc(map_sizes[word_size] * sizeof(long long));
         mallerr(maps[word_size][word_size + 1][0].array, errno);
         /* Setting the whole array with 1s */
-        memset(maps[word_size][word_size + 1][0].array, 0xFF, map_sizes[word_size] * sizeof(int));
+        memset(maps[word_size][word_size + 1][0].array, 0xFF, map_sizes[word_size] * sizeof(long long));
         /* We need to remove the excess 1s in the case of extra int (to cover non divisible word_counts) */
-        if (words_count[word_size] & 0x1F) {
-            int remove = 0xFFFFFFFF;
-            remove <<= words_count[word_size] & 0x1F; /* Skip all that is fine */
+        if (words_count[word_size] & 0x3F) {
+            long long remove = 0xFFFFFFFFFFFFFFFFLL;
+            remove <<= words_count[word_size] & 0x3F; /* Skip all that is fine */
             maps[word_size][word_size + 1][0].array[map_sizes[word_size] - 1] ^= remove; /* Remove rest bits */
         }
     }
@@ -90,32 +90,22 @@ Map*** init_dict_maps(Dictionary* bigdict, int max_word_size, int* words_count,
 
 void join_map(Map* map1, Map* map2) {
     DBGCHECK(map1->size == map2->size); // debug tools
-    register int* array1 = map1->array;
-    register int* array2 = map2->array;
+    register long long* array1 = map1->array;
+    register long long* array2 = map2->array;
     int size = map1->size;
     for (register int i = 0 ; i < size ; ++i) {
         array1[i] &= array2[i];
     }
 }
 
-void remconf_map(Map* map1, Map* map2) {
-    DBGCHECK(map1->size == map2->size); // debug tools
-    register int* array1 = map1->array;
-    register int* array2 = map2->array;
-    int size = map1->size;
-    for (register int i = 0 ; i < size ; ++i) {
-        array1[i] ^= array1[i] & array2[i];
-    }
-}
-
 /* Brian Kernighan’s Algorithm */
 int sum_bit(Map* map) {
     DBGCHECK(map != NULL); // debug tools
-    register int* array = map->array;
+    register long long* array = map->array;
     int size = map->size;
     register int sum = 0;
     for (register int i = 0 ; i < size ; ++i) {
-        register int n = array[i];
+        register long long n = array[i];
         if (n == 0) continue;
         while (n) {
             n &= (n - 1);

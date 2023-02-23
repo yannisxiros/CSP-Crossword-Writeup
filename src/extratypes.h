@@ -13,7 +13,6 @@ enum Orientation {
 
 struct Word {
     int in_use;
-    int put_index;
     enum Orientation orientation;
     int constant;
     int begin;
@@ -26,8 +25,9 @@ struct Word {
     int* past_fc;
 };
 
+//TODO make the map array long long
 struct Map {
-    int* array;
+    long long* array;
     int size;
     int sum;
 };

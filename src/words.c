@@ -144,7 +144,7 @@ Word** map_words_on_grid(char** crossword, int crossword_size, int count) {
 void prop_word(Word** words, int wordnode_count, int last) {
     int index = last;
     int min = words[index]->map->sum;
-    int insec = words[index]->insecc;
+    int insecc = words[index]->insecc;
     /**
      * Looping through all words to find the one with lowest possibilities
      * as a 2nd criteria we are also looking for the number of intersections
@@ -154,12 +154,12 @@ void prop_word(Word** words, int wordnode_count, int last) {
         int temp = words[i]->map->sum;
         if (temp < min) {
             min = temp;
-            insec = words[i]->insecc;
+            insecc = words[i]->insecc;
             index = i;
         }
-        else if (temp == min && words[i]->insecc > insec) {
+        else if (temp == min && words[i]->insecc > insecc) {
             min = temp;
-            insec = words[i]->insecc;
+            insecc = words[i]->insecc;
             index = i;
         }
     }

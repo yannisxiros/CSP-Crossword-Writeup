@@ -105,9 +105,9 @@ void check_crossword(char** crossword, Word** words, Map*** maps, int wordnode_c
         }
         Map* map = malloc(sizeof(Map));
         map->size = maps[word_size - 1][word_size]->size;
-        map->array = malloc(map->size * sizeof(int));
+        map->array = malloc(map->size * sizeof(long long));
         /* Copying array with 1s */
-        memcpy(map->array, maps[word_size - 1][word_size]->array, map->size * sizeof(int));
+        memcpy(map->array, maps[word_size - 1][word_size]->array, map->size * sizeof(long long));
         /* Creating the appropriate map for the word given */
         for (int i = 0 ; buffer[i] ; ++i) {
             join_map(map, maps[word_size - 1][i] + buffer[i]);
@@ -159,7 +159,7 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
 
     Map* map_stack = calloc(map_stack_size, sizeof(Map));
     for (int i = 0 ; i < map_stack_size ; ++i) {
-        map_stack[i].array = malloc(max_map_size * sizeof(int));
+        map_stack[i].array = malloc(max_map_size * sizeof(long long));
     }
 
     int map_stack_index = 0;
@@ -170,7 +170,7 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
     prop_word(words, wordnode_count, index);
     map_stack[map_stack_index].sum = words[index]->map->sum;
     map_stack[map_stack_index].size = words[index]->map->size;
-    memcpy(map_stack[map_stack_index].array, words[index]->map->array, words[index]->map->size * sizeof(int));
+    memcpy(map_stack[map_stack_index].array, words[index]->map->array, words[index]->map->size * sizeof(long long));
     ++map_stack_index;
     while (index < wordnode_count) {
         prune_flag = 0;
@@ -181,25 +181,27 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
                 fprintf(stderr, "Couldn\'t solve crossword (extra sad) :(\n");
                 exit(1);
             }
-            // h <- max(max-list(conf-set[i], max-list(past-fc[i])))
+            int* curr_conf_set = words[index]->conf_set;
+            int* curr_past_fc = words[index]->past_fc;
+            /* h <- max(max-list(conf-set[i], max-list(past-fc[i]))) */
             int jump_to = index - 1;
             for (int i = index - 1 ; i >= 0 ; --i) {
-                if (words[index]->conf_set[i] || words[index]->past_fc[i]) {
+                if (curr_conf_set[i] || curr_past_fc[i]) {
                     jump_to = i;
                     break;
                 }
             }
-            // past-fc union, conf_set union
+            /* past-fc union, conf_set union */
             for (int i = jump_to ; i >= 0 ; --i) {
-                words[jump_to]->conf_set[i] |= words[index]->conf_set[i] | words[index]->past_fc[i];
+                words[jump_to]->conf_set[i] |= curr_conf_set[i] | curr_past_fc[i];
             }
-            // remove h
+            /* remove h */
             words[jump_to]->conf_set[jump_to] = 0;
-            // backtrack
+            /* backtrack */
             do {
                 --map_stack_index;
                 words[index]->map->sum = map_stack[map_stack_index].sum;
-                memcpy(words[index]->map->array, map_stack[map_stack_index].array, words[index]->map->size * sizeof(int));
+                memcpy(words[index]->map->array, map_stack[map_stack_index].array, words[index]->map->size * sizeof(long long));
                 memset(words[index]->conf_set, 0, wordnode_count * sizeof(int));
                 --index;
                 /* Fixing back all maps that got ruined from the word put */
@@ -209,7 +211,7 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
                         word_b->past_fc[index] = 0;
                         --map_stack_index;
                         word_b->map->sum = map_stack[map_stack_index].sum;
-                        memcpy(word_b->map->array, map_stack[map_stack_index].array, word_b->map->size * sizeof(int));
+                        memcpy(word_b->map->array, map_stack[map_stack_index].array, word_b->map->size * sizeof(long long));
                     }
                 }
                 words[index]->in_use = 0;
@@ -222,7 +224,6 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
         write_word(crosswords[index + 1], words[index], word_found);
         /* Label word used */
         words[index]->in_use = 1;
-        words[index]->put_index = index;
         /* For every intersection in word update its map with the changed letter */
         for (int i = 0 ; i < words[index]->insecc ; ++i) {
             Intersection insec = words[index]->insecs[i];
@@ -230,7 +231,7 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
             if (word->in_use == 0) {
                 map_stack[map_stack_index].sum = word->map->sum;
                 map_stack[map_stack_index].size = word->map->size;
-                memcpy(map_stack[map_stack_index].array, word->map->array, word->map->size * sizeof(int));
+                memcpy(map_stack[map_stack_index].array, word->map->array, word->map->size * sizeof(long long));
                 ++map_stack_index;
                 join_map(word->map, &bitmaps[word->size - 1][insec.pos][(int)crosswords[index + 1][insec.x][insec.y]]);
                 word->past_fc[index] = 1;
@@ -249,7 +250,7 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
                         if (word_b->in_use == 0) {
                             --map_stack_index;
                             word_b->map->sum = map_stack[map_stack_index].sum;
-                            memcpy(word_b->map->array, map_stack[map_stack_index].array, word_b->map->size * sizeof(int));
+                            memcpy(word_b->map->array, map_stack[map_stack_index].array, word_b->map->size * sizeof(long long));
                             word_b->conf_set[index] = 0;
                         }
                     }
@@ -266,7 +267,7 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
             prop_word(words, wordnode_count, index);
             map_stack[map_stack_index].sum = words[index]->map->sum;
             map_stack[map_stack_index].size = words[index]->map->size;
-            memcpy(map_stack[map_stack_index].array, words[index]->map->array, words[index]->map->size * sizeof(int));
+            memcpy(map_stack[map_stack_index].array, words[index]->map->array, words[index]->map->size * sizeof(long long));
             ++map_stack_index;
         }
     }

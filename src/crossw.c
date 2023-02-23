@@ -11,8 +11,8 @@ extern int errno;
 int main(int argc, char** argv) {
 
     /* Sanity check section */
-    if (sizeof(int) < 4 || CHAR_BIT != 8) {
-        fprintf(stderr, "Really bro? -_-\n");
+    if (sizeof(long long) * CHAR_BIT != 64) {
+        fprintf(stderr, "Buy new pc -_-\n");
         return 1;
     }
 
@@ -81,9 +81,9 @@ int main(int argc, char** argv) {
         Map* src = dict_maps[grid_words[i]->size - 1][grid_words[i]->size];
         grid_words[i]->map = malloc(sizeof(Map));
         grid_words[i]->map->size = src->size;
-        grid_words[i]->map->array = malloc(src->size * sizeof(int));
+        grid_words[i]->map->array = malloc(src->size * sizeof(long long));
         /* Copying the map with 1s */
-        memcpy(grid_words[i]->map->array, src->array, src->size * sizeof(int));
+        memcpy(grid_words[i]->map->array, src->array, src->size * sizeof(long long));
         sum_bit(grid_words[i]->map);
     }
 

@@ -62,13 +62,13 @@ void print_dictionary(Dictionary* bigdict, int max_word_size, int* words_count) 
  * @details debug tool
 */
 void print_map(Map* map) {
-    int* array = map->array;
+    long long* array = map->array;
     int size = map->size;
     int sum = map->sum;
     printf("size: %d, sum: %d\n", size, sum);
-    for (int i = 0 ; i < size ; i+=8) {
-        for (int j = 0 ; j < 8 ; ++j) {
-            if(i + j < size) printf("%08x ", array[i + j]);
+    for (int i = 0 ; i < size ; i+=4) {
+        for (int j = 0 ; j < 4 ; ++j) {
+            if(i + j < size) printf("%04llx ", array[i + j]);
         }
         putchar('\n');
     }
