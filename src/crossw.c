@@ -75,10 +75,6 @@ int main(int argc, char** argv) {
 
     /* Initialize dict_maps */
     Map*** dict_maps = init_dict_maps(bigdict, max_word_size, dict_count, lengths_on_grid, ascii_on_dict);
-    
-    /* Freeing the markers */
-    free(lengths_on_grid);
-    free(ascii_on_dict);
 
     /* Initializing maps for all words */
     for (int i = 0 ; i < grid_count ; ++i) {
@@ -123,6 +119,8 @@ int main(int argc, char** argv) {
     free_dictionary(bigdict, max_word_size, dict_count);
     free(dict_count);
     free_maps(dict_maps, max_word_size);
+    free(lengths_on_grid);
+    free(ascii_on_dict);
     free_words(grid_words, grid_count);
     free(*crossword);
     free(crossword);
