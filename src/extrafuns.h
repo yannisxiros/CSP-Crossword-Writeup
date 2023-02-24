@@ -43,10 +43,12 @@ int count_words_on_grid(char** crossword, int crossword_size, int* lengths_on_gr
 Word** map_words_on_grid(char** crossword, int crossword_size, int count);
 void prop_word(Word** words, int wordnode_count, int last);
 void print_solution(char** crossword, Word** ord_words, int count);
+void free_words(Word** words,int wordnode_count);
 
 /* maps.c functions */
 Map*** init_dict_maps(Dictionary* bigdict, int max_word_size, int* words_count,
                       int* lengths_on_grid, int* ascii_on_dict);
+void free_maps(Map*** maps,int max_word_size,int* ascii_on_dict,int* lengths_on_grid);
 void join_map(Map* map1, Map* map2);
 int sum_bit(Map* map);
 

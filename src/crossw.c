@@ -117,5 +117,13 @@ int main(int argc, char** argv) {
     /* Cleanup */
     free_dictionary(bigdict, max_word_size, dict_count);
     free(dict_count);
+
+    free_maps(dict_maps,max_word_size,ascii_on_dict,lengths_on_grid);
+
+
+    free_words(grid_words,grid_count);
+
+    free(lengths_on_grid);
+    free(ascii_on_dict);
     return 0;
 }

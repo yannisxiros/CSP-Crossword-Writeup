@@ -88,6 +88,23 @@ Map*** init_dict_maps(Dictionary* bigdict, int max_word_size, int* words_count,
     return maps;
 }
 
+void free_maps(Map*** maps,int max_word_size,int* ascii_on_dict,int* lengths_on_grid){
+    for (int word_size = 1 ; word_size < max_word_size ; ++word_size) {
+        if (lengths_on_grid[word_size] == 0) continue;
+        for (int position = 0 ; position <= word_size ; ++position) {
+            for (int letter = 0 ; letter < 256 ; ++letter) {
+                if (ascii_on_dict[letter] == 0) continue;
+                free(maps[word_size][position][letter].array);
+            }
+            free(maps[word_size][position]);
+        }
+        free(maps[word_size][word_size + 1][0].array);
+        free(maps[word_size][word_size + 1]);
+        free(maps[word_size]);
+    }
+    free(maps);     
+}
+
 void join_map(Map* map1, Map* map2) {
     DBGCHECK(map1->size == map2->size); // debug tools
     register long long* array1 = map1->array;

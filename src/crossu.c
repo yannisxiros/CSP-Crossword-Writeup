@@ -143,11 +143,13 @@ void check_crossword(char** crossword, Word** words, Map*** maps, int wordnode_c
 //TODO CHECK MAPS FOR SHIFT (MAYBE USE UNSIGNED)
 void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict, Word** words, int wordnode_count, Map*** bitmaps) {
     
+    /* Allocating sets for CBJ */
     for (int i = 0 ; i < wordnode_count ; ++i) {
         words[i]->conf_set = calloc(wordnode_count, sizeof(int));
         words[i]->past_fc = calloc(wordnode_count, sizeof(int));
     }
 
+    /* Initialising map_stack (for backtrack) */
     int max_map_size = 0;
     int map_stack_size = wordnode_count;
     for (int i = 0 ; i < wordnode_count ; ++i) {
@@ -272,6 +274,13 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
         }
     }
     *crossword = crosswords[wordnode_count];
+
+    /* Cleanup*/
+    for(int i = 0; i < map_stack_size; ++i){
+        free(map_stack[i].array);
+    }
+    free(map_stack);
+    
 }
 
 char*** init_crosswords(char** crossword, int crossword_size, int wordnode_count) {

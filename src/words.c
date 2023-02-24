@@ -168,3 +168,20 @@ void prop_word(Word** words, int wordnode_count, int last) {
     words[last] = words[index];
     words[index] = temp;
 }
+
+
+void free_words(Word** words,int wordnode_count){
+    for(int i = 0; i < wordnode_count; ++i){
+        Word* temp_word = words[i];
+
+        free(temp_word->map->array);
+        free(temp_word->map);
+
+        free(temp_word->insecs);
+        free(temp_word->conf_set);
+        free(temp_word->past_fc);
+
+        free(temp_word);
+    }
+    free(words);
+}
