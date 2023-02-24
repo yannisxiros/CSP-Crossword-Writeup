@@ -149,7 +149,7 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
         words[i]->past_fc = calloc(wordnode_count, sizeof(int));
     }
 
-    /* Initialising map_stack (for backtrack) */
+    /* Initializing map_stack (for backtrack) */
     int max_map_size = 0;
     int map_stack_size = wordnode_count;
     for (int i = 0 ; i < wordnode_count ; ++i) {
@@ -275,8 +275,13 @@ void solve_crossword(char*** crossword, int crossword_size, Dictionary* bigdict,
     }
     *crossword = crosswords[wordnode_count];
 
-    /* Cleanup*/
-    for(int i = 0; i < map_stack_size; ++i){
+    /* Cleanup */
+    for (int i = 0 ; i < wordnode_count ; ++i) {
+        free(*crosswords[i]);
+        free(crosswords[i]);
+    }
+    free(crosswords);
+    for (int i = 0 ; i < map_stack_size ; ++i) {
         free(map_stack[i].array);
     }
     free(map_stack);
@@ -300,5 +305,7 @@ char*** init_crosswords(char** crossword, int crossword_size, int wordnode_count
     }
     /* Initial copy */
     memcpy(crosswords[0][0], crossword[0], crossword_size * crossword_size * sizeof(char));
+    free(*crossword);
+    free(crossword);
     return crosswords;
 }
